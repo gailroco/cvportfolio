@@ -2,14 +2,11 @@ import React, { useContext } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 import PortfolioContext from '../../context/context';
-import GithubButtons from '../GithubButtons/GithubButtons';
-
-import { githubButtons } from '../../mock/data';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 const Footer = () => {
   const { footer } = useContext(PortfolioContext);
-  const { networks } = footer;
-  const { isEnabled } = githubButtons;
+  const { title, subtitle, base, networks } = footer;
 
   return (
     <footer className="footer navbar-static-bottom">
@@ -31,20 +28,23 @@ const Footer = () => {
                   target="_blank"
                   aria-label={name}
                 >
-                  <i className={`fa fa-${name || 'refresh'} fa-inverse`} />
+                  <i className={`fab fa-${name || 'refresh'} fa-inverse`} />
                 </a>
               );
             })}
         </div>
         <hr />
         <p className="footer__text">
-          © {new Date().getFullYear()} - Template developed by{' '}
-          <a href="https://github.com/cobidev" target="_blank" rel="noopener noreferrer">
-            Jacobo Martínez
+          © {new Date().getFullYear()} - {title || 'Template developed by'}{' '}
+          {subtitle || 'Jacobo Martínez'}. Based on{' '}
+          <a
+            href="https://github.com/cobidev/gatsby-simplefolio"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {base || "Jacobo Martínez' template."}
           </a>
         </p>
-
-        {isEnabled && <GithubButtons />}
       </Container>
     </footer>
   );
