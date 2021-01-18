@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Fade from 'react-reveal/Fade';
-import Tilt from 'react-tilt';
 import { Container, Row, Col } from 'react-bootstrap';
 import PortfolioContext from '../../context/context';
 import Title from '../Title/Title';
-import ProjectImg from '../Image/ProjectImg';
+import ProjectLayout12 from '../Image/ProjectLayout12';
 
 const Projects = () => {
   const { projects } = useContext(PortfolioContext);
@@ -28,7 +27,23 @@ const Projects = () => {
         <div className="project-wrapper">
           <Title title="Projects" />
           {projects.map((project) => {
-            const { title, info, info2, url, repo, img, id } = project;
+            const {
+              title,
+              info,
+              info2,
+              url,
+              repo,
+              img1,
+              img2,
+              link1,
+              link2,
+              cap1,
+              cap2,
+              enableimg1,
+              enableimg2,
+              id,
+              urltxt,
+            } = project;
 
             return (
               <Row key={id}>
@@ -49,15 +64,16 @@ const Projects = () => {
                         </p>
                         <p className="mb-4">{info2 || ''}</p>
                       </div>
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cta-btn cta-btn--hero"
-                        href={url || '#!'}
-                      >
-                        See Video
-                      </a>
-
+                      {url && (
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cta-btn cta-btn--hero"
+                          href={url || '#!'}
+                        >
+                          {urltxt || 'Know more'}
+                        </a>
+                      )}
                       {repo && (
                         <a
                           target="_blank"
@@ -71,41 +87,11 @@ const Projects = () => {
                     </div>
                   </Fade>
                 </Col>
-                <Col lg={8} sm={12}>
-                  <Fade
-                    right={isDesktop}
-                    bottom={isMobile}
-                    duration={1000}
-                    delay={1000}
-                    distance="30px"
-                  >
-                    <div className="project-wrapper__image">
-                      <a
-                        href={url || '#!'}
-                        target="_blank"
-                        aria-label="Project Link"
-                        rel="noopener noreferrer"
-                      >
-                        <Tilt
-                          options={{
-                            reverse: false,
-                            max: 8,
-                            perspective: 1000,
-                            scale: 1,
-                            speed: 300,
-                            transition: true,
-                            axis: null,
-                            reset: true,
-                            easing: 'cubic-bezier(.03,.98,.52,.99)',
-                          }}
-                        >
-                          <div data-tilt className="thumbnail rounded">
-                            <ProjectImg alt={title} filename={img} />
-                          </div>
-                        </Tilt>
-                      </a>
-                    </div>
-                  </Fade>
+                <Col lg={4} sm={12}>
+                  <ProjectLayout12 filename={img1} link={link1} alt={cap1} enableimg={enableimg1} />
+                </Col>
+                <Col lg={4} sm={12}>
+                  <ProjectLayout12 filename={img2} link={link2} alt={cap2} enableimg={enableimg2} />
                 </Col>
               </Row>
             );

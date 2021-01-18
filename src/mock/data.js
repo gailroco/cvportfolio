@@ -19,10 +19,12 @@ export const heroData = {
 export const aboutData = {
   img: 'profile.jpg',
   paragraphOne:
-    'Thanks for dropping by : ). I am passionate about engineering and technology in general and, in particular, I love mobile robotics topics.',
-  paragraphTwo: '',
-  paragraphThree: '',
-  resume: 'https://www.resumemaker.online/es.php', // if no resume, the button will not show up
+    'Thanks for dropping by : ). I am passionate about engineering and technology in general and, in particular, I love doing research about mobile robotics.',
+  paragraphTwo:
+    'I enjoy doing math analysis, defining problem statements and implementing solutions for them. One of my main areas of interest is analyzing to which extent practice meets theory.',
+  paragraphThree:
+    'My main hobbies are petting my dogs (one of them on the left), doing yoga and watching movies/series. ',
+  resume: '', // if no resume, the button will not show up
 };
 
 // PROJECTS DATA
@@ -32,14 +34,19 @@ export const projectsData = [
     img1: 'bsc0_1.jpg',
     img2: 'bsc0_2.jpg',
     title: 'Output Feedback Linear Control for an Air-based Levitator',
-    info: "During my bachelor's degree",
-    info2: '',
+    info:
+      "During my bachelor's degree, I discovered that I liked control theory when I was taking that subject. Because of this I implemented an output feedback linear control for an air-levitator system using a Luenberger observer to estimate the velocity of a ballon with only distance readings from an ultrasonic sensor.",
+    info2: 'Click the images to see their respective videos.',
     link1: 'https://www.youtube.com/watch?v=dgmX2sGMyIk',
     link2: '',
+    cap1: '',
+    cap2: '',
     url:
       'https://www.researchgate.net/publication/298341144_Control_por_Retroalimentacion_de_Salida_de_un_Sistema_de_Levitacion_de_Aire',
     urltxt: 'Read more',
     repo: '', // if no repo, the button will not show up
+    enableimg1: true,
+    enableimg2: false,
   },
   {
     id: nanoid(),
@@ -48,12 +55,16 @@ export const projectsData = [
     title: 'Instrumentation and control of a wheeled mobile robot type (2,0)',
     info:
       "For my Bachelor's thesis, I designed and programmed in C a low level PID speed control for the wheels velocities using only encoder readings to generate open loop trajectories on a skid-steered vehicle.",
-    info2: '',
+    info2: 'Click the images to see their respective videos.',
     link1: 'https://www.youtube.com/watch?v=i-g88BYBD6c',
     link2: 'https://www.youtube.com/watch?v=JtLYsUKMTZ8',
+    cap1: '',
+    cap2: '',
     url: 'https://eventos.itam.mx/es/node/11558',
     urltxt: 'Read more',
     repo: '', // if no repo, the button will not show up
+    enableimg1: true,
+    enableimg2: true,
   },
   {
     id: nanoid(),
@@ -62,12 +73,16 @@ export const projectsData = [
     title: 'Continuous sliding mode control of differential drive robot',
     info:
       "For my Master's thesis, I designed and programmed a trajectory tracking algorithm on a differential drive robot using a closed loop scheme based on sliding modes control technique using Super-Twisting algorithm.",
-    info2: ' ',
+    info2: 'Click the images to see their respective videos.',
     link1: 'https://www.youtube.com/watch?v=bPUWZJW4Bnk',
     link2: 'https://www.youtube.com/watch?v=lp1aQLZVq9M',
+    cap1: '',
+    cap2: '',
     url: 'https://ieeexplore.ieee.org/document/8264571',
     urltxt: 'Read more',
     repo: '', // if no repo, the button will not show up
+    enableimg1: true,
+    enableimg2: true,
   },
   {
     id: nanoid(),
@@ -76,12 +91,16 @@ export const projectsData = [
     title: 'My own R2-D2',
     info:
       "For my own fun, I am building and programming what is going to be a R2-D2 cousin; it's a work in progress. It's a hot mess for now.",
-    info2: ' ',
-    link1: 'https://www.youtube.com/watch?v=bPUWZJW4Bnk',
-    link2: 'https://www.youtube.com/watch?v=lp1aQLZVq9M',
-    url: 'https://ieeexplore.ieee.org/document/8264571',
-    urltxt: 'Read more',
+    info2: '',
+    link1: '',
+    link2: '',
+    cap1: '',
+    cap2: '',
+    url: '',
+    urltxt: '',
     repo: '', // if no repo, the button will not show up
+    enableimg1: false,
+    enableimg2: false,
   },
 ];
 
