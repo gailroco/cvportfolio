@@ -35,7 +35,7 @@ export const projectsData = [
     img2: 'bsc0_2.jpg',
     title: 'Output Feedback Linear Control for an Air-based Levitator',
     info:
-      "During my bachelor's degree, I discovered that I liked control theory when I was taking that subject. Because of this I implemented an output feedback linear control for an air-levitator system using a Luenberger observer to estimate the velocity of a ballon with only distance readings from an ultrasonic sensor.",
+      "During my bachelor's degree, I discovered that I liked control theory when I was taking that subject. Because of this I designed and implemented an output feedback linear control for an air-levitator system using a Luenberger observer to estimate the velocity of a ballon with only distance readings from an ultrasonic sensor.",
     info2: 'Click the images to see their respective videos.',
     link1: 'https://www.youtube.com/watch?v=dgmX2sGMyIk',
     link2: '',
