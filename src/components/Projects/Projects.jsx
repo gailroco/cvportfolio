@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Fade from 'react-reveal/Fade';
+
 import { Container, Row, Col } from 'react-bootstrap';
+
 import PortfolioContext from '../../context/context';
+
 import Title from '../Title/Title';
 import ProjectLayout12 from '../Image/ProjectLayout12';
+
+import Fade from '../../transition/in-and-out/Fade';
 
 const Projects = () => {
   const { projects } = useContext(PortfolioContext);
@@ -48,13 +52,7 @@ const Projects = () => {
             return (
               <Row key={id}>
                 <Col lg={4} sm={12}>
-                  <Fade
-                    left={isDesktop}
-                    bottom={isMobile}
-                    duration={1000}
-                    delay={500}
-                    distance="30px"
-                  >
+                  <Fade left={isDesktop} bottom={isMobile} duration={1000} delay={500} distance="30px">
                     <div className="project-wrapper__text">
                       <h3 className="project-wrapper__text-title">{title || 'Project Title'}</h3>
                       <div>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Tilt } from 'react-tilt';
 import PropTypes from 'prop-types';
-import Fade from 'react-reveal/Fade';
-import Tilt from 'react-tilt';
+
 import ProjectImg from './ProjectImg';
+
+import Fade from '../../transition/in-and-out/Fade';
 
 const ProjectLayout12 = ({ filename, link, cap, enableimg }) => {
   const [isDesktop, setIsDesktop] = useState(false);
@@ -31,10 +33,10 @@ const ProjectLayout12 = ({ filename, link, cap, enableimg }) => {
             <Tilt
               options={{
                 reverse: false,
-                max: 8,
+                max: 35,
                 perspective: 1000,
                 scale: 1,
-                speed: 300,
+                speed: 2000,
                 transition: true,
                 axis: null,
                 reset: true,
@@ -56,10 +58,10 @@ const ProjectLayout12 = ({ filename, link, cap, enableimg }) => {
         <Tilt
           options={{
             reverse: false,
-            max: 8,
+            max: 35,
             perspective: 1000,
             scale: 1,
-            speed: 300,
+            speed: 2000,
             transition: true,
             axis: null,
             reset: true,

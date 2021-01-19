@@ -1,24 +1,21 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { Helmet } from 'react-helmet';
 import { Container } from 'react-bootstrap';
-import Fade from 'react-reveal/Fade';
+import Fade from '../transition/in-and-out/Fade';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { headData } from '../mock/data';
 import '../style/main.scss';
 
-export default () => {
+const NotFoundPage = () => {
   const { lang } = headData;
 
   return (
     <>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Page not found</title>
-        <html lang={lang || 'en'} />
-        <meta name="description" content="Page not found" />
-      </Helmet>
+      <meta charSet="utf-8" />
+      <title>Page not found</title>
+      <html lang={lang || 'en'} />
+      <meta name="description" content="Page not found" />
       <section id="hero" className="jumbotron">
         <Container>
           <Fade bottom duration={1000} delay={500} distance="30px">
@@ -41,3 +38,7 @@ export default () => {
     </>
   );
 };
+
+export default NotFoundPage
+
+export const Head = () => <title>Not found</title>

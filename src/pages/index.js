@@ -1,22 +1,20 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import App from '../components/App';
 import { headData } from '../mock/data';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/main.scss';
 
-export default () => {
-  const { title, lang, description } = headData;
+const IndexPage = () => {
+    const { title, lang, description } = headData;
 
-  return (
-    <>
-      <Helmet>
+    return (
+      <App>
         <meta charSet="utf-8" />
-        <title>{title || 'Gatsby Simplefolio'}</title>
+        <title>{title || 'Gatsby Simple portfolio'}</title>
         <html lang={lang || 'en'} />
-        <meta name="description" content={description || 'Gatsby Simplefolio'} />
-      </Helmet>
-      <App />
-    </>
-  );
-};
+        <meta name="description" content={description || 'Gatsby Simple portfolio'} />
+      </App>
+    )
+  }
+
+  export default IndexPage

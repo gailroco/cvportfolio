@@ -23,7 +23,7 @@ const Footer = () => {
               return (
                 <a
                   key={id}
-                  href={url || 'https://github.com/cobidev/gatsby-simplefolio'}
+                  href={url || 'https://github.com/gailroco/cvportfolio'}
                   rel="noopener noreferrer"
                   target="_blank"
                   aria-label={name}
@@ -35,14 +35,14 @@ const Footer = () => {
         </div>
         <hr />
         <p className="footer__text">
-          © {new Date().getFullYear()} - {title || 'Template developed by'}{' '}
-          {subtitle || 'author'} based on{' '}
+          © {new Date().getFullYear()} - {title || "Page created by"} {' '}
+          {subtitle || "<author_name>"} with {' '}
           <a
-            href="https://github.com/cobidev/gatsby-simplefolio"
+            href="https://github.com/gailroco/cvportfolio"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {base || "template."}
+            {base || "with this Gatsby modified template."}
           </a>
         </p>
       </Container>

@@ -19,11 +19,11 @@ export const heroData = {
 export const aboutData = {
   img: 'profile.jpg',
   paragraphOne:
-    'Thanks for dropping by : ). I am passionate about engineering and technology in general and, in particular, I love doing research about mobile robotics.',
+    'Thanks for dropping by! I am passionate about engineering and technology in general and, in particular, I love doing research about mobile robotics.',
   paragraphTwo:
     'I enjoy doing math analysis, defining problem statements and implementing solutions for them. One of my main areas of interest is analyzing to which extent practice meets theory.',
   paragraphThree:
-    'My main hobbies are petting my dogs (one of them on the left), doing yoga and watching movies/series. ',
+    'My main hobbies are petting my dogs (one of them on the left), playing soccer, watching movies or series and doing yoga.',
   resume: '', // if no resume, the button will not show up
 };
 
@@ -135,7 +135,7 @@ export const footerData = {
   ],
 };
 
-// Github start/fork buttons
+// GITHUB START/FORK BUTTONS
 export const githubButtons = {
   isEnabled: false, // set to false to disable the GitHub stars/fork buttons
 };
