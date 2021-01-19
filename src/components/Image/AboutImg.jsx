@@ -14,7 +14,7 @@ const AboutImg = ({ filename, alt }) => (
               name
               childImageSharp {
                 fixed(width: 250, quality: 100, webpQuality: 90) {
-                  ...GatsbyImageSharpFixed
+                  ...GatsbyImageSharpFixed_noBase64
                 }
               }
             }
