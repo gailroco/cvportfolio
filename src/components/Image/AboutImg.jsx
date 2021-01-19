@@ -13,7 +13,7 @@ const AboutImg = ({ filename, alt }) => (
               relativePath
               name
               childImageSharp {
-                fixed(width: 250) {
+                fixed(width: 250, quality: 100, webpQuality: 90) {
                   ...GatsbyImageSharpFixed
                 }
               }
