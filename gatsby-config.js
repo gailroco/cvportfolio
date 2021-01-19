@@ -1,5 +1,5 @@
 module.exports = {
-  pathPrefix: '/cvportfolio',
+  pathPrefix: '/cvportfolio/',
   plugins: [
     `gatsby-plugin-sass`,
     `gatsby-plugin-react-helmet`,
