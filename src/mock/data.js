@@ -125,7 +125,7 @@ export const footerData = {
     {
       id: nanoid(),
       name: 'github',
-      url: 'https://github.com/gailroco1',
+      url: 'https://github.com/gailroco',
     },
     {
       id: nanoid(),
