@@ -2,7 +2,7 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
-  pathPrefix: "cvportfolio",
+  pathPrefix: "/cvportfolio",
   siteMetadata: {
     title: `Gailroco's portfolio`,
     siteUrl: `https://gailroco.github.io/cvportfolio/`
@@ -19,20 +19,20 @@ module.exports = {
       background_color: `#fff`,
       theme_color: `#02aab0`,
       display: `standalone`,
-      "icon": "./src/images/favicon.png"
+      "icon": "src/images/favicon.png"
     }
   }, {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "images",
-      "path": "./src/images/"
+      "path": "src/images/"
     },
     __key: "images"
   }, {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "pages",
-      "path": "./src/pages/"
+      "path": "src/pages/"
     },
     __key: "pages"
   }
