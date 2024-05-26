@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 // HEAD DATA
 export const headData = {
   title: "Frida's Portfolio", // e.g: 'Name | Developer'
-  lang: '', // e.g: en, es, fr, jp
+  lang: 'en', // e.g: en, es, fr, jp
   description: 'Welcome to my portfolio', // e.g: Welcome to my website
 };
 
@@ -12,7 +12,7 @@ export const heroData = {
   title: 'Hi there : ), my name is',
   name: 'Frida',
   subtitle: "I'm an Embedded Systems Developer.",
-  cta: '',
+  cta: 'Know more',
 };
 
 // ABOUT DATA
@@ -115,7 +115,7 @@ export const contactData = {
 export const footerData = {
   title: 'Page created by',
   subtitle: 'Frida Rojas',
-  base: '',
+  base: 'this Gatsby modified template.',
   networks: [
     {
       id: nanoid(),

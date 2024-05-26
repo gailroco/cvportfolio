@@ -35,14 +35,14 @@ const Footer = () => {
         </div>
         <hr />
         <p className="footer__text">
-          © {new Date().getFullYear()} - {title || "Page created by"} {' '}
-          {subtitle || "<author_name>"} with {' '}
+          © {new Date().getFullYear()} - {title} {' '}
+          {subtitle} with {' '}
           <a
             href="https://github.com/gailroco/cvportfolio"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {base || "with this Gatsby modified template."}
+            {base}
           </a>
         </p>
       </Container>
