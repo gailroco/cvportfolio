@@ -10,7 +10,7 @@
 ## ☕ Quick start
 
 1. **Prerequisites.**
-    Repository is using:
+    Using:
 
     ```shell
     $ node -v
@@ -18,6 +18,12 @@
 
     $ npm -v
     10.5.2
+    ```
+
+    To install packages:
+
+    ```shell
+    $ npm install
     ```
 
 2.  **Create a Gatsby site.**
