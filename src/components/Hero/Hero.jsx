@@ -30,7 +30,7 @@ const Head = () => {
           <h1 className="hero-title">
             {title}{' '}
             <span className="text-color-main">{name}</span>
-            .<br />
+            <br />
             {subtitle}
           </h1>
         </Fade>
