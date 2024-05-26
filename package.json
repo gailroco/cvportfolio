@@ -23,7 +23,7 @@
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@mui/material": "^5.15.18",
     "@popperjs/core": "^2.11.8",
-    "axios": "^0.21.4",
+    "axios": "^0.28.0",
     "bootstrap": "^4.5.0",
     "follow-redirects": "^1.14.0",
     "gatsby": "^5.13.5",
