@@ -2,7 +2,7 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
-  pathPrefix: "portfolio",
+  pathPrefix: "cvportfolio",
   siteMetadata: {
     title: `Gailroco's portfolio`,
     siteUrl: `https://gailroco.github.io/cvportfolio/`
