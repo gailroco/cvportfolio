@@ -38,7 +38,7 @@ const Head = () => {
           <p className="hero-cta">
             <span className="cta-btn cta-btn--hero">
               <Link to="about" smooth duration={1000}>
-                {cta}
+                {cta || "Know more"}
               </Link>
             </span>
           </p>
