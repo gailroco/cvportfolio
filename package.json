@@ -1,5 +1,5 @@
 {
-  "homepage": "http://gailroco1.github.io/cvportfolio",
+  "homepage": "http://gailroco.github.io/cvportfolio",
   "name": "gatsby-starter-hello-world",
   "private": true,
   "description": "A simplified bare-bones starter for Gatsby",
@@ -64,10 +64,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gailroco1/cvportfolio"
+    "url": "https://github.com/gailroco/cvportfolio"
   },
   "bugs": {
-    "url": "https://github.com/gailroco1/cvportfolio/issues"
+    "url": "https://github.com/gailroco/cvportfolio/issues"
   },
   "husky": {
     "hooks": {
