@@ -2,7 +2,7 @@
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
-  pathPrefix: "/cvportfolio",
+  pathPrefix: "/cvportfolio/",
   siteMetadata: {
     title: `Gailroco's portfolio`,
     siteUrl: `https://gailroco.github.io/cvportfolio/`
@@ -25,14 +25,14 @@ module.exports = {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "images",
-      "path": "src/images/"
+      "path": `${__dirname}/src/images/`,
     },
     __key: "images"
   }, {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "pages",
-      "path": "src/pages/"
+      "path": `${__dirname}/src/pages/`,
     },
     __key: "pages"
   }
