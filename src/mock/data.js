@@ -113,7 +113,7 @@ export const contactData = {
 
 // FOOTER DATA
 export const footerData = {
-  title: 'Page customized by',
+  title: 'Page created by',
   subtitle: 'Frida Rojas',
   base: '',
   networks: [

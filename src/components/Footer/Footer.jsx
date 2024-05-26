@@ -36,13 +36,13 @@ const Footer = () => {
         <hr />
         <p className="footer__text">
           © {new Date().getFullYear()} - {title || 'Template developed by'}{' '}
-          {subtitle || 'Jacobo Martínez'}. Based on{' '}
+          {subtitle || 'author'} based on{' '}
           <a
             href="https://github.com/cobidev/gatsby-simplefolio"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {base || "Jacobo Martínez' template."}
+            {base || "template."}
           </a>
         </p>
       </Container>
