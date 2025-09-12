@@ -1,3 +1,7 @@
+/**
+ * ProjectImg: Loads and renders a responsive project image by filename.
+ * @param {{alt?: string, filename?: string}} props
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,7 +12,7 @@ const ProjectImg = ({ alt, filename }) => (
   <StaticQuery
     query={graphql`
       query {
-        images: allFile(filter: { extension: { regex: "/jpeg|jpg|png/" } }) {
+        images: allFile(filter: { extension: { regex: "/jpeg|jpg|png/i" } }) {
           edges {
             node {
               relativePath
@@ -22,12 +26,12 @@ const ProjectImg = ({ alt, filename }) => (
       }
     `}
     render={(data) => {
-      const image = data.images.edges.find((n) => n.node.relativePath.includes(filename));
+      const image = data.images.edges.find((n) => n.node.relativePath.endsWith(filename));
 
       if (!image) return null;
 
       const imageGatsby = image.node.childImageSharp.gatsbyImageData;
-      return <GatsbyImage alt={``} image={imageGatsby} />;
+      return <GatsbyImage alt={alt || ''} image={imageGatsby} />;
     }}
   />
 );

@@ -7,7 +7,16 @@ module.exports = {
     title: `Gailroco's portfolio`,
     siteUrl: `https://gailroco.github.io/cvportfolio/`
   },
-  plugins: ["gatsby-plugin-sass",
+  plugins: [
+            {
+              resolve: "gatsby-plugin-sass",
+              options: {
+                implementation: require("sass-embedded"),
+                sassOptions: {
+                  api: "modern-compiler",
+                },
+              },
+            },
             "gatsby-plugin-image",
             "gatsby-transformer-sharp",
             "gatsby-plugin-sharp",

@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import Fade from '../transition/in-and-out/Fade';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { headData } from '../mock/data';
+import { headData } from '../data/data';
 import '../style/main.scss';
 
 const NotFoundPage = () => {

@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from 'react';
+/**
+ * ProjectLayout12: Image tile with optional link and tilt effect.
+ * @param {Object} props
+ * @param {string} [props.filename] - image filename in src/images
+ * @param {string} [props.link] - optional external link to wrap image
+ * @param {string} [props.cap] - alt text/caption for accessibility
+ * @param {boolean} [props.enableimg] - whether to render the image/link block
+ */
+import React from 'react';
 import { Tilt } from 'react-tilt';
 import PropTypes from 'prop-types';
 
 import ProjectImg from './ProjectImg';
 
 import Fade from '../../transition/in-and-out/Fade';
+import useDeviceType from '../../hooks/useDeviceType';
 
 const ProjectLayout12 = ({ filename, link, cap, enableimg }) => {
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isDesktop, isMobile } = useDeviceType();
 
-  useEffect(() => {
-    if (window.innerWidth > 769) {
-      setIsDesktop(true);
-      setIsMobile(false);
-    } else {
-      setIsMobile(true);
-      setIsDesktop(false);
-    }
-  }, []);
-
-  if ({ enableimg }) {
+  if (enableimg) {
     return (
       <Fade right={isDesktop} bottom={isMobile} duration={1000} delay={1000} distance="30px">
         <div className="project-wrapper__image">

@@ -1,27 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react';
+/**
+ * Hero: Top section with title, name, subtitle and CTA.
+ * Uses react-scroll to link to the About section.
+ */
+import React, { useContext } from 'react';
 
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 
 import Fade from '../../transition/in-and-out/Fade';
 import PortfolioContext from '../../context/context';
+import useDeviceType from '../../hooks/useDeviceType';
 
 const Head = () => {
   const { hero } = useContext(PortfolioContext);
   const { title, name, subtitle, cta } = hero;
 
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (window.innerWidth > 769) {
-      setIsDesktop(true);
-      setIsMobile(false);
-    } else {
-      setIsMobile(true);
-      setIsDesktop(false);
-    }
-  }, []);
+  const { isDesktop, isMobile } = useDeviceType();
 
   return (
     <section id="hero" className="jumbotron">

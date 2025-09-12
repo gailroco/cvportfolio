@@ -1,4 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+/**
+ * About: Bio section with profile image and three paragraphs.
+ * Reads content from context and animates with Fade.
+ */
+import React, { useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import PortfolioContext from '../../context/context';
@@ -7,23 +11,13 @@ import Title from '../Title/Title';
 import AboutImg from '../Image/AboutImg';
 
 import Fade from '../../transition/in-and-out/Fade';
+import useDeviceType from '../../hooks/useDeviceType';
 
 const About = () => {
   const { about } = useContext(PortfolioContext);
   const { img, paragraphOne, paragraphTwo, paragraphThree } = about;
 
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (window.innerWidth > 769) {
-      setIsDesktop(true);
-      setIsMobile(false);
-    } else {
-      setIsMobile(true);
-      setIsDesktop(false);
-    }
-  }, []);
+  const { isDesktop, isMobile } = useDeviceType();
 
   return (
     <section id="about">

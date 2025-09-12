@@ -1,3 +1,7 @@
+/**
+ * App: Root layout that composes the portfolio sections and
+ * provides content via PortfolioProvider from src/mock/data.js.
+ */
 import React, { useState, useEffect } from 'react';
 
 import { PortfolioProvider } from '../context/context';
@@ -8,7 +12,7 @@ import Projects from './Projects/Projects';
 import Contact from './Contact/Contact';
 import Footer from './Footer/Footer';
 
-import { heroData, aboutData, projectsData, contactData, footerData } from '../mock/data';
+import { heroData, aboutData, projectsData, contactData, footerData } from '../data/data';
 
 function App() {
   const [hero, setHero] = useState({});

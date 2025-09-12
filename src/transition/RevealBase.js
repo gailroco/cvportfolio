@@ -609,9 +609,13 @@ class RevealBase extends React.Component {
 
     if (typeof this.state.style.animationName === 'function') {
       // TODO: Needs refactoring
-      this.state.style.animationName =
-        this.state.style.animationName(!this.isOn,
-                                       this.props);
+      const newAnimationName = this.state.style.animationName(!this.isOn, this.props);
+      this.setState(prevState => ({
+        style: {
+          ...prevState.style,
+          animationName: newAnimationName
+        }
+      }));
     }
 
     if ( (this.props.cascade) &&

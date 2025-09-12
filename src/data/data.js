@@ -2,9 +2,9 @@ import { nanoid } from 'nanoid';
 
 // HEAD DATA
 export const headData = {
-  title: "Frida's Portfolio", // e.g: 'Name | Developer'
-  lang: 'en', // e.g: en, es, fr, jp
-  description: 'Welcome to my portfolio', // e.g: Welcome to my website
+  title: "Frida's Portfolio",
+  lang: 'en',
+  description: 'Welcome to my portfolio',
 };
 
 // HERO DATA
@@ -24,7 +24,7 @@ export const aboutData = {
     'I enjoy doing math analysis, defining problem statements and implementing solutions for them. One of my main areas of interest is analyzing to which extent practice meets theory.',
   paragraphThree:
     'My main hobbies are petting my dogs (one of them on the left), playing soccer, watching movies or series and doing yoga.',
-  resume: '', // if no resume, the button will not show up
+  resume: '',
 };
 
 // PROJECTS DATA
@@ -44,7 +44,7 @@ export const projectsData = [
     url:
       'https://www.researchgate.net/publication/298341144_Control_por_Retroalimentacion_de_Salida_de_un_Sistema_de_Levitacion_de_Aire',
     urltxt: 'Read more',
-    repo: '', // if no repo, the button will not show up
+    repo: '',
     enableimg1: true,
     enableimg2: false,
   },
@@ -62,7 +62,7 @@ export const projectsData = [
     cap2: '',
     url: 'https://eventos.itam.mx/es/node/11558',
     urltxt: 'Read more',
-    repo: '', // if no repo, the button will not show up
+    repo: '',
     enableimg1: true,
     enableimg2: true,
   },
@@ -80,7 +80,7 @@ export const projectsData = [
     cap2: '',
     url: 'https://ieeexplore.ieee.org/document/8264571',
     urltxt: 'Read more',
-    repo: '', // if no repo, the button will not show up
+    repo: '',
     enableimg1: true,
     enableimg2: true,
   },
@@ -98,7 +98,7 @@ export const projectsData = [
     cap2: '',
     url: '',
     urltxt: '',
-    repo: '', // if no repo, the button will not show up
+    repo: '',
     enableimg1: false,
     enableimg2: false,
   },
@@ -137,5 +137,7 @@ export const footerData = {
 
 // GITHUB START/FORK BUTTONS
 export const githubButtons = {
-  isEnabled: false, // set to false to disable the GitHub stars/fork buttons
+  isEnabled: false,
 };
+
+

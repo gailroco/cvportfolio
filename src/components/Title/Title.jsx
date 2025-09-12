@@ -1,3 +1,7 @@
+/**
+ * Title: Section heading with a simple Fade-in animation.
+ * @param {{title: string}} props
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 

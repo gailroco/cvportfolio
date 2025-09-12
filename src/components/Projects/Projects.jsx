@@ -1,4 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+/**
+ * Projects: Lists project cards from context with optional links and images.
+ * Uses ProjectLayout12 for image display and layout.
+ */
+import React, { useContext } from 'react';
 
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -8,22 +12,12 @@ import Title from '../Title/Title';
 import ProjectLayout12 from '../Image/ProjectLayout12';
 
 import Fade from '../../transition/in-and-out/Fade';
+import useDeviceType from '../../hooks/useDeviceType';
 
 const Projects = () => {
   const { projects } = useContext(PortfolioContext);
 
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (window.innerWidth > 769) {
-      setIsDesktop(true);
-      setIsMobile(false);
-    } else {
-      setIsMobile(true);
-      setIsDesktop(false);
-    }
-  }, []);
+  const { isDesktop, isMobile } = useDeviceType();
 
   return (
     <section id="projects">

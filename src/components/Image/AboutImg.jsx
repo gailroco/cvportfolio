@@ -1,3 +1,7 @@
+/**
+ * AboutImg: Loads and renders a fixed-size profile image by filename.
+ * @param {{alt?: string, filename?: string}} props
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
@@ -7,7 +11,7 @@ const AboutImg = ({ alt, filename }) => (
   <StaticQuery
     query={graphql`
       query {
-        images: allFile(filter: { extension: { regex: "/jpeg|jpg|png/" } }) {
+        images: allFile(filter: { extension: { regex: "/jpeg|jpg|png/i" } }) {
           edges {
             node {
               relativePath
@@ -21,12 +25,12 @@ const AboutImg = ({ alt, filename }) => (
       }
     `}
     render={(data) => {
-      const image = data.images.edges.find((n) => n.node.relativePath.includes(filename));
+      const image = data.images.edges.find((n) => n.node.relativePath.endsWith(filename));
 
       if (!image) return null;
 
       const imageGatsby = image.node.childImageSharp.gatsbyImageData;
-      return <GatsbyImage className="rounded shadow-lg" alt={``} image={imageGatsby} />;
+      return <GatsbyImage className="rounded shadow-lg" alt={alt || ''} image={imageGatsby} />;
     }}
   />
 );

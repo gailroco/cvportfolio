@@ -1,66 +1,102 @@
 <p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
+  <a href="https://gailroco.github.io/cvportfolio/">
+    <img alt="Portfolio" src="src/images/favicon.png" width="60" />
   </a>
 </p>
 <h1 align="center">
-  Gatsby Portfolio Starter
+  CV Portfolio
 </h1>
+
+A simple Gatsby-based portfolio site with React, SCSS, and small animation helpers.
 
 ## ☕ Quick start
 
 1. **Prerequisites.**
-    Using:
 
     ```shell
-    $ node -v
-    v20.13.1
-
-    $ npm -v
-    10.5.2
+    node -v   # >= 20
+    npm -v    # >= 10
     ```
 
-    To install packages:
+2. **Install and run.**
 
     ```shell
-    $ npm install
-    ```
-
-2.  **Create a Gatsby site.**
-
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
-
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
-
-3.  **Start developing.**
-
-    Navigate into your new site’s directory and start it up.
-
-    ```shell
-    cd my-gatsby-site/
+    npm install
     npm run develop
     ```
 
-4.  **Open the code and start customizing!**
+    Your site runs at http://localhost:8000
 
-    Your site is now running at http://localhost:8000!
+3. **Build, serve, deploy.**
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+    ```shell
+    npm run build       # production build
+    npm run serve       # serve the built site locally
+    npm run deploy      # deploy to GitHub Pages (gh-pages)
+    ```
 
-5.  **Learn more**
+    **For production preview with path prefix:**
+    ```shell
+    npm run build -- --prefix-paths  # build with path prefix
+    npm run serve -- --prefix-paths  # serve at http://localhost:9000/cvportfolio/
+    ```
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+4. **Troubleshooting image display issues.**
 
-## 🚀 Quick start (Netlify)
+    If images show as gray placeholders instead of actual images:
+    
+    ```shell
+    # First, stop any running servers
+    taskkill /F /IM node.exe  # Windows: kill all Node processes
+    # OR Ctrl+C in terminal windows running npm commands
+    
+    npm run clean       # clear Gatsby cache
+    npm run develop     # restart dev server
+    # OR
+    npm run build -- --prefix-paths  # rebuild with path prefix
+    npm run serve -- --prefix-paths  # serve production preview
+    ```
+    
+    **Note:** On Windows, you may get "resource busy or locked" errors if Gatsby processes are still running. Always stop servers before running `npm run clean`.
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+5. **Proper server startup sequence.**
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal)
+    To avoid gray rectangles and ensure images display correctly:
+    
+    **Development Server:**
+    ```shell
+    taskkill /F /IM node.exe  # stop any running servers
+    npm run clean            # clear cache
+    npm run develop          # start dev server
+    ```
+    
+    **Production Preview Server:**
+    ```shell
+    taskkill /F /IM node.exe  # stop any running servers
+    npm run clean            # clear cache
+    npm run build -- --prefix-paths  # build with path prefix
+    npm run serve -- --prefix-paths  # start production server
+    ```
+
+## Project structure
+- `src/components/` React UI components (Hero, About, Projects, Contact, Footer)
+- `src/data/data.js` Content configuration (titles, text, links, images)
+- `src/style/` SCSS partials organized by concerns
+- `src/transition/` animation helpers (Fade, RevealBase)
+- `docs/` Architecture, components, and maintenance docs
+
+## Documentation
+- [Architecture](docs/ARCHITECTURE.md)
+- [UI Components](docs/COMPONENTS.md)
+- [Maintenance Guide](docs/MAINTENANCE.md)
+
+## Notes
+- Bootstrap upgraded to v5; jQuery is not required
+- Shared hook `src/hooks/useDeviceType.js` provides consistent responsive behavior
+
+## Security
+- Run `npm audit` regularly and apply non-breaking updates
+- Keep `nanoid` and Gatsby plugins up-to-date
+
+## License
+See [LICENSE.md](LICENSE.md)

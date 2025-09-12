@@ -1,6 +1,6 @@
 import React from 'react';
 import App from '../components/App';
-import { headData } from '../mock/data';
+import { headData } from '../data/data';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/main.scss';
 

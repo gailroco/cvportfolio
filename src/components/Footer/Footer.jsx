@@ -1,3 +1,7 @@
+/**
+ * Footer: Back-to-top link and social icons built from context.
+ * Uses Font Awesome brand icons and react-scroll.
+ */
 import React, { useContext } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-scroll';

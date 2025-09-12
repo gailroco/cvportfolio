@@ -1,15 +1,20 @@
+/**
+ * Contact: Call-to-action section with mailto link.
+ * Reads cta/button text and email from context.
+ */
 import React, { useContext } from 'react';
 import { Container } from 'react-bootstrap';
 
 import Fade from '../../transition/in-and-out/Fade';
-
 import PortfolioContext from '../../context/context';
 
 import Title from '../Title/Title';
+import useDeviceType from '../../hooks/useDeviceType';
 
 const Contact = () => {
   const { contact } = useContext(PortfolioContext);
   const { cta, btn, email } = contact;
+  useDeviceType();
 
   return (
     <section id="contact">
