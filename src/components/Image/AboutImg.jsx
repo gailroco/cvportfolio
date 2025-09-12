@@ -11,7 +11,12 @@ const AboutImg = ({ alt, filename }) => (
   <StaticQuery
     query={graphql`
       query {
-        images: allFile(filter: { extension: { regex: "/jpeg|jpg|png/i" } }) {
+        images: allFile(
+          filter: {
+            extension: { in: ["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"] }
+            relativeDirectory: { eq: "" }
+          }
+        ) {
           edges {
             node {
               relativePath
