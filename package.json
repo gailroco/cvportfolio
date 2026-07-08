@@ -31,7 +31,7 @@
     "gatsby-transformer-remark": "^6.15.0",
     "gatsby-transformer-sharp": "^5.15.0",
     "nanoid": "^5.1.5",
-    "postcss": "^8.5.6",
+    "postcss": "^8.5.16",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
@@ -57,6 +57,9 @@
     "form-data": ">=4.0.6",
     "immutable": ">=3.8.3",
     "micromatch": ">=4.0.8",
+    "resolve-url-loader": {
+      "postcss": ">=8.5.10"
+    },
     "shell-quote": ">=1.9.0",
     "tar-fs": ">=3.1.1",
     "tmp": ">=0.2.6",
