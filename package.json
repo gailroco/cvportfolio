@@ -48,15 +48,20 @@
     "globals": "^15.3.0"
   },
   "overrides": {
+    "@babel/core": ">=7.29.7 <8.0.0",
     "@babel/helpers": ">=7.26.10",
+    "@babel/plugin-transform-modules-systemjs": ">=7.29.7 <8.0.0",
     "@babel/runtime": ">=7.26.10",
     "base-x": ">=3.0.11",
     "cross-spawn": ">=7.0.5",
     "form-data": ">=4.0.6",
+    "immutable": ">=3.8.3",
     "micromatch": ">=4.0.8",
+    "shell-quote": ">=1.9.0",
     "tar-fs": ">=3.1.1",
     "tmp": ">=0.2.6",
-    "webpack": ">=5.105.0"
+    "webpack": ">=5.105.0",
+    "ws": ">=8.21.0"
   },
   "repository": {
     "type": "git",
