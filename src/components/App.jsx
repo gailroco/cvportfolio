@@ -1,6 +1,6 @@
 /**
  * App: Root layout that composes the portfolio sections and
- * provides content via PortfolioProvider from src/mock/data.js.
+ * provides content via PortfolioProvider from src/data/data.js.
  */
 import React, { useState, useEffect } from 'react';
 

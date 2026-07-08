@@ -18,58 +18,41 @@ import useDeviceType from '../../hooks/useDeviceType';
 const ProjectLayout12 = ({ filename, link, cap, enableimg }) => {
   const { isDesktop, isMobile } = useDeviceType();
 
-  if (enableimg) {
-    return (
-      <Fade right={isDesktop} bottom={isMobile} duration={1000} delay={1000} distance="30px">
-        <div className="project-wrapper__image">
+  const tilt = (
+    <Tilt
+      options={{
+        reverse: false,
+        max: 35,
+        perspective: 1000,
+        scale: 1,
+        speed: 2000,
+        transition: true,
+        axis: null,
+        reset: true,
+        easing: 'cubic-bezier(.03,.98,.52,.99)',
+      }}
+    >
+      <div data-tilt className="thumbnail rounded">
+        <ProjectImg alt={cap} filename={filename} />
+      </div>
+    </Tilt>
+  );
+
+  return (
+    <Fade right={isDesktop} bottom={isMobile} duration={1000} delay={1000} distance="30px">
+      <div className="project-wrapper__image">
+        {enableimg ? (
           <a
             href={link || '#!'}
             target="_blank"
             aria-label="Project Link"
             rel="noopener noreferrer"
           >
-            <Tilt
-              options={{
-                reverse: false,
-                max: 35,
-                perspective: 1000,
-                scale: 1,
-                speed: 2000,
-                transition: true,
-                axis: null,
-                reset: true,
-                easing: 'cubic-bezier(.03,.98,.52,.99)',
-              }}
-            >
-              <div data-tilt className="thumbnail rounded">
-                <ProjectImg alt={cap} filename={filename} />
-              </div>
-            </Tilt>
+            {tilt}
           </a>
-        </div>
-      </Fade>
-    );
-  }
-  return (
-    <Fade right={isDesktop} bottom={isMobile} duration={1000} delay={1000} distance="30px">
-      <div className="project-wrapper__image">
-        <Tilt
-          options={{
-            reverse: false,
-            max: 35,
-            perspective: 1000,
-            scale: 1,
-            speed: 2000,
-            transition: true,
-            axis: null,
-            reset: true,
-            easing: 'cubic-bezier(.03,.98,.52,.99)',
-          }}
-        >
-          <div data-tilt className="thumbnail rounded">
-            <ProjectImg alt={cap} filename={filename} />
-          </div>
-        </Tilt>
+        ) : (
+          tilt
+        )}
       </div>
     </Fade>
   );

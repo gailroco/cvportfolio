@@ -9,12 +9,10 @@ import Fade from '../../transition/in-and-out/Fade';
 import PortfolioContext from '../../context/context';
 
 import Title from '../Title/Title';
-import useDeviceType from '../../hooks/useDeviceType';
 
 const Contact = () => {
   const { contact } = useContext(PortfolioContext);
   const { cta, btn, email } = contact;
-  useDeviceType();
 
   return (
     <section id="contact">

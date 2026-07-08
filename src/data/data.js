@@ -135,9 +135,3 @@ export const footerData = {
   ],
 };
 
-// GITHUB START/FORK BUTTONS
-export const githubButtons = {
-  isEnabled: false,
-};
-
-

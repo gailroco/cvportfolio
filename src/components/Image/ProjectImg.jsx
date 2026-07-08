@@ -6,7 +6,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { StaticQuery, graphql } from 'gatsby';
-import { GatsbyImage } from 'gatsby-plugin-image';
+
+import ImageFromQuery from './ImageFromQuery';
 
 const ProjectImg = ({ alt, filename }) => (
   <StaticQuery
@@ -30,14 +31,9 @@ const ProjectImg = ({ alt, filename }) => (
         }
       }
     `}
-    render={(data) => {
-      const image = data.images.edges.find((n) => n.node.relativePath.endsWith(filename));
-
-      if (!image) return null;
-
-      const imageGatsby = image.node.childImageSharp.gatsbyImageData;
-      return <GatsbyImage alt={alt || ''} image={imageGatsby} />;
-    }}
+    render={(data) => (
+      <ImageFromQuery edges={data.images.edges} filename={filename} alt={alt} />
+    )}
   />
 );
 
