@@ -1,0 +1,85 @@
+diff --git a/node_modules/@parcel/reporter-dev-server/lib/ServerReporter.js b/node_modules/@parcel/reporter-dev-server/lib/ServerReporter.js
+index 3b926a9..d17f1a9 100644
+--- a/node_modules/@parcel/reporter-dev-server/lib/ServerReporter.js
++++ b/node_modules/@parcel/reporter-dev-server/lib/ServerReporter.js
+@@ -16630,8 +16630,20 @@ var $2f3c899ae4ebce9c$exports = {};
+ 
+ 
+ var $29d62bc9a48463d1$var$$parcel$__dirname = $luxNM$path.resolve(__dirname, "../src");
+-function $29d62bc9a48463d1$export$1c94a12dbc96ed70(res) {
+-    res.setHeader("Access-Control-Allow-Origin", "*");
++function $29d62bc9a48463d1$export$1c94a12dbc96ed70(req, res) {
++    const origin = req.headers.origin;
++    if (origin) {
++        let originHost;
++        try {
++            originHost = new $luxNM$url.URL(origin).host;
++        } catch (e) {
++            originHost = null;
++        }
++        if (originHost && originHost === req.headers.host) {
++            res.setHeader("Access-Control-Allow-Origin", origin);
++            res.setHeader("Vary", "Origin");
++        }
++    }
+     res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, PUT, PATCH, POST, DELETE");
+     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Content-Type");
+     res.setHeader("Cache-Control", "max-age=0, must-revalidate");
+@@ -16861,7 +16873,7 @@ class $29d62bc9a48463d1$export$2e2bcd8739ae039 {
+     async start() {
+         const app = (0, (/*@__PURE__*/$parcel$interopDefault($908eb12b17578eca$exports)))();
+         app.use((req, res, next)=>{
+-            $29d62bc9a48463d1$export$1c94a12dbc96ed70(res);
++            $29d62bc9a48463d1$export$1c94a12dbc96ed70(req, res);
+             next();
+         });
+         await this.applyProxyTable(app);
+diff --git a/node_modules/@parcel/reporter-dev-server/src/HMRServer.js b/node_modules/@parcel/reporter-dev-server/src/HMRServer.js
+index de9528d..f691ce0 100644
+--- a/node_modules/@parcel/reporter-dev-server/src/HMRServer.js
++++ b/node_modules/@parcel/reporter-dev-server/src/HMRServer.js
+@@ -73,7 +73,7 @@ export default class HMRServer {
+     if (!server) {
+       let result = await createHTTPServer({
+         listener: (req, res) => {
+-          setHeaders(res);
++          setHeaders(req, res);
+           if (!this.handle(req, res)) {
+             res.statusCode = 404;
+             res.end();
+diff --git a/node_modules/@parcel/reporter-dev-server/src/Server.js b/node_modules/@parcel/reporter-dev-server/src/Server.js
+index f974f4f..c349091 100644
+--- a/node_modules/@parcel/reporter-dev-server/src/Server.js
++++ b/node_modules/@parcel/reporter-dev-server/src/Server.js
+@@ -32,8 +32,20 @@ import {URL, URLSearchParams} from 'url';
+ import launchEditor from 'launch-editor';
+ import fresh from 'fresh';
+ 
+-export function setHeaders(res: Response) {
+-  res.setHeader('Access-Control-Allow-Origin', '*');
++export function setHeaders(req: Request, res: Response) {
++  const origin = req.headers.origin;
++  if (origin) {
++    let originHost;
++    try {
++      originHost = new URL(origin).host;
++    } catch (e) {
++      originHost = null;
++    }
++    if (originHost && originHost === req.headers.host) {
++      res.setHeader('Access-Control-Allow-Origin', origin);
++      res.setHeader('Vary', 'Origin');
++    }
++  }
+   res.setHeader(
+     'Access-Control-Allow-Methods',
+     'GET, HEAD, PUT, PATCH, POST, DELETE',
+@@ -437,7 +449,7 @@ export default class Server {
+ 
+     const app = connect();
+     app.use((req, res, next) => {
+-      setHeaders(res);
++      setHeaders(req, res);
+       next();
+     });
+     await this.applyProxyTable(app);

@@ -16,7 +16,8 @@
     "serve": "gatsby serve --prefix-paths",
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
@@ -45,7 +46,8 @@
     "eslint": "^9.26.0",
     "eslint-plugin-react": "^7.34.1",
     "gh-pages": "^6.1.1",
-    "globals": "^15.3.0"
+    "globals": "^15.3.0",
+    "patch-package": "^8.0.1"
   },
   "overrides": {
     "@babel/core": ">=7.29.7 <8.0.0",
