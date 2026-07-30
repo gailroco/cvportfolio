@@ -11,6 +11,7 @@
     "start": "npm run develop",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "lint": "eslint .",
     "build": "gatsby build",
     "serve": "gatsby serve --prefix-paths",
     "clean": "gatsby clean",
