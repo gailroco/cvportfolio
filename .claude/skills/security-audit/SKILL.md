@@ -15,7 +15,7 @@ spam the issue tracker.
 ## 1. Pull open alerts, filtered fields only
 
 ```bash
-gh api repos/gailroco/cvportfolio/dependabot/alerts --jq \
+gh api repos/gailroco/cvportfolio/dependabot/alerts --paginate --jq \
   '[.[] | select(.state=="open")] |
    sort_by(. as $a | ["critical","high","medium","low"] | index($a.security_advisory.severity)) |
    .[] | {number, severity: .security_advisory.severity,
@@ -30,6 +30,14 @@ object into context. Each alert also carries a long CVSS vector, a full
 prose description, and a references array, all noise for triage. The
 jq filter above reduces each alert to one line before it ever lands in
 the conversation.
+
+`--paginate` is required, not optional. `gh api` returns only the
+first page (30 alerts) without it, newest first. Once the repo has
+more than 30 total alerts (fixed and open combined), an older open
+alert silently falls off the page and this step reports fewer open
+alerts than actually exist. `--paginate` fetches every page before the
+`--jq` filter runs, so the `select(.state=="open")` sees the whole
+history regardless of how many alerts have accumulated.
 
 If there are zero open alerts, stop and report that: nothing to file.
 
