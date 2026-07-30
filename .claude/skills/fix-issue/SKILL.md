@@ -130,12 +130,18 @@ strength of a clean build alone.
 gh issue close <N> --repo gailroco/cvportfolio
 ```
 
-## 9. Deploying is a separate decision
+## 9. Deploy
 
-`npm run deploy` publishes straight to the live GitHub Pages site. Do
-not run it as part of closing an issue unless asked, mention it is
-available and ask whether to deploy now or batch it with other pending
-fixes.
+`npm run deploy` publishes straight to the live GitHub Pages site.
+After closing the issue, mention it is available and ask whether to
+deploy now or batch it with other pending fixes. Do not run it on your
+own initiative.
+
+**Checkpoint:** ask whether to deploy now before running it.
+
+```bash
+npm run deploy
+```
 
 ## 10. Save what is worth keeping
 
