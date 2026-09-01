@@ -58,6 +58,7 @@
     "brace-expansion": ">=1.1.18 <2.0.0",
     "cookie": ">=0.7.0 <1.0.0",
     "cross-spawn": ">=7.0.5",
+    "decode-uri-component": ">=0.5.0",
     "eslint-plugin-react": {
       "minimatch": {
         ".": ">=10.2.6",
