@@ -105,6 +105,26 @@ state:
 gh pr comment <N> --body "@dependabot rebase"
 ```
 
+**If CI fails with a lockfile sync error** (`npm ci` reports "Missing:
+X from lock file"), do not loop on `@dependabot rebase`. Dependabot
+will keep replying "already up-to-date" because it only considers
+changes to the files it owns. The real cause is that a `package.json`
+override added after the PR was created was never reflected in the
+lockfile. Fix it directly on master instead:
+
+1. Run `npm install --package-lock-only` locally to regenerate the
+   lockfile.
+2. If the failing PR also bumps a version, tighten the relevant
+   override floor in `package.json` to that version and re-run step 1.
+3. Verify with `npm ci --dry-run` (must exit 0).
+4. Commit both `package.json` and `package-lock.json` to master and
+   push.
+5. Dependabot detects master already has the fix and closes its PR
+   automatically. No manual close needed.
+
+Note: `maintainerCanModify` is false on Dependabot PRs in this repo,
+so pushing directly to the PR branch is not possible.
+
 ## 5. Wait for checks, one blocking call
 
 ```bash
