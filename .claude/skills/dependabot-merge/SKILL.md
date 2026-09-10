@@ -97,30 +97,41 @@ PRs already opened before the workflow existed report no checks.
 `pull_request` triggers do not run retroactively, only a new commit
 (open, synchronize, reopen) fires them.
 
-**Checkpoint:** if any PRs need a nudge, list which ones and get one
-batch approval before commenting, posting to a PR is visible shared
-state:
+**If any PRs are failing CI**, check the failure log before doing
+anything else:
 
 ```bash
-gh pr comment <N> --body "@dependabot rebase"
+gh run view <run-id> --log-failed 2>/dev/null | grep -E "Missing:|Invalid:|error code" | head -10
 ```
 
 **If CI fails with a lockfile sync error** (`npm ci` reports "Missing:
-X from lock file"), do not loop on `@dependabot rebase`. Dependabot
-will keep replying "already up-to-date" because it only considers
-changes to the files it owns. The real cause is that a `package.json`
-override added after the PR was created was never reflected in the
-lockfile. Fix it directly on master instead:
+X from lock file" or "Invalid: lock file's X does not satisfy Y"),
+fix it directly on master. Do NOT comment `@dependabot rebase`:
+in this repo Dependabot regenerates lockfiles in a way that conflicts
+with the `brace-expansion` flat override, so a rebase will reproduce
+the same failure. Fix master instead:
 
-1. Run `npm install --package-lock-only` locally to regenerate the
-   lockfile.
-2. If the failing PR also bumps a version, tighten the relevant
-   override floor in `package.json` to that version and re-run step 1.
-3. Verify with `npm ci --dry-run` (must exit 0).
-4. Commit both `package.json` and `package-lock.json` to master and
+1. Add or update `package.json` overrides to set the target version
+   as the floor for each affected package. Use scoped overrides
+   (e.g. `"gray-matter": { "js-yaml": ">=3.15.2 <4.0.0" }`) when
+   the package is an indirect dep to avoid pulling in a wrong major
+   version. Always include an upper bound on the major (e.g.
+   `<18.0.0`) to prevent unintended major bumps.
+2. Run `npm update <pkg1> <pkg2> --package-lock-only` for the
+   specific packages being bumped. Do NOT delete and regenerate the
+   full lockfile: this project's `brace-expansion` override creates
+   a lockfile structure that a fresh `npm install` cannot reproduce.
+3. If `npm update` does not bump a nested 4.x or 5.x entry (scoped
+   overrides are not enforced by `npm update` for nested paths),
+   patch the lockfile entry directly: look up the correct `resolved`
+   URL and `integrity` hash via `npm view <pkg>@<version> dist`,
+   then edit the two fields in `package-lock.json`.
+4. Verify with `npm ci --dry-run` (must exit 0, no "Missing" or
+   "Invalid" lines).
+5. Commit both `package.json` and `package-lock.json` to master and
    push.
-5. Dependabot detects master already has the fix and closes its PR
-   automatically. No manual close needed.
+6. Dependabot detects master already satisfies the target versions
+   and closes its PRs automatically. No manual close needed.
 
 Note: `maintainerCanModify` is false on Dependabot PRs in this repo,
 so pushing directly to the PR branch is not possible.
