@@ -192,10 +192,10 @@ release requires incompatible peer packages).
    gh api repos/gailroco/cvportfolio/dependabot/alerts/<N> -X PATCH \
      -f state=dismissed \
      -f dismissed_reason=tolerable_risk \
-     -f dismissed_comment="<280 char max: patch commit sha and tracking issue>"
+     -f dismissed_comment="<280 char max: patch commit sha and why>"
    ```
-6. File or update a tracking issue so the patch is discoverable if the
-   upstream package ever ships a proper fix.
+   The dismissal comment is the only record. Do not file a tracking
+   issue for it.
 
 ### Dismiss
 
@@ -207,7 +207,8 @@ gh api repos/gailroco/cvportfolio/dependabot/alerts/<N> -X PATCH \
 ```
 
 Only dismiss when the vulnerable code path is genuinely unreachable or
-already mitigated. State the reason explicitly.
+already mitigated. State the reason explicitly in the dismissal
+comment, and do not file a tracking issue alongside it.
 
 ## 7. Wait for CI (one blocking call)
 
