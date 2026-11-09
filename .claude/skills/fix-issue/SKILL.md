@@ -11,6 +11,22 @@ intentionally fails, there is nothing to run). Verification here means
 reading the fix and checking it in a real browser, not running a test
 command.
 
+## In a Claude cloud session
+
+When `CLAUDE_CODE_REMOTE=true`, the Claude in Chrome tools are not
+available. Dependencies are already installed by the session start
+hook. Adjust the steps below:
+
+- Step 4: run `npm run lint` and `npm run build`, then
+  `npm run serve` and fetch the affected routes to confirm they return
+  200 and contain the expected text. That is not a visual check: say
+  plainly that the browser check is still pending and must be done on
+  a local machine before the issue is closed.
+- Step 8: do not close the issue from a cloud session, because the
+  browser check has not happened yet.
+- Step 9: never deploy from a cloud session, not even when asked.
+  Publishing stays a deliberate step taken from a local session.
+
 ## 1. Pull the issue
 
 ```bash
