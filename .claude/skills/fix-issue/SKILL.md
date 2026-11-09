@@ -17,13 +17,29 @@ When `CLAUDE_CODE_REMOTE=true`, the Claude in Chrome tools are not
 available. Dependencies are already installed by the session start
 hook. Adjust the steps below:
 
-- Step 4: run `npm run lint` and `npm run build`, then
-  `npm run serve` and fetch the affected routes to confirm they return
-  200 and contain the expected text. That is not a visual check: say
-  plainly that the browser check is still pending and must be done on
-  a local machine before the issue is closed.
-- Step 8: do not close the issue from a cloud session, because the
-  browser check has not happened yet.
+- Steps 1 and 8: the cloud GitHub proxy rejects GraphQL, so
+  `gh issue view`, `gh issue comment` and `gh issue close` fail there.
+  Use the REST API instead: read with
+  `gh api repos/gailroco/cvportfolio/issues/<N>`, comment with
+  `gh api repos/gailroco/cvportfolio/issues/<N>/comments -f body=...`
+  and close with
+  `gh api -X PATCH repos/gailroco/cvportfolio/issues/<N> -f state=closed`.
+- Step 4: run `npm run lint` and `npm run build -- --prefix-paths`,
+  start `npm run serve` in the background, then check each affected
+  route with the preinstalled Chrome:
+
+  ```bash
+  "$CHROME_PATH" --headless --no-sandbox --virtual-time-budget=8000 \
+    --window-size=1280,2000 --screenshot=/tmp/page.png \
+    http://localhost:9000/cvportfolio/<route>
+  ```
+
+  The virtual time budget lets the fade in animations finish; without
+  it the screenshot is blank. Look at the image and confirm the
+  reported problem is gone. Repeat with `--window-size=390,2000` for a phone
+  width check when the issue is about layout. This screenshot counts
+  as the browser check, so the issue may be closed after it passes.
+  Stop the server afterwards.
 - Step 9: never deploy from a cloud session, not even when asked.
   Publishing stays a deliberate step taken from a local session.
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # SessionStart hook for Claude cloud sessions. Does nothing locally.
 # Installs dependencies with npm ci, but only when node_modules is
-# missing or package-lock.json changed since the last install.
+# missing or an install input changed since the last install: the
+# package files, the patch-package patches, or this script.
 set -euo pipefail
 
 [[ "${CLAUDE_CODE_REMOTE:-}" == "true" ]] || exit 0
@@ -15,8 +16,9 @@ if [[ "$have" != "$want" ]]; then
        "Check the cloud environment setup script." >&2
 fi
 
-stamp=node_modules/.package-lock.sha256
-hash="$(sha256sum package-lock.json | cut -d' ' -f1)"
+stamp=node_modules/.install-inputs.sha256
+hash="$(cat package.json package-lock.json patches/*.patch \
+          scripts/cloud-session-start.sh | sha256sum | cut -d' ' -f1)"
 if [[ -f "$stamp" && "$(cat "$stamp")" == "$hash" ]]; then
   exit 0
 fi
