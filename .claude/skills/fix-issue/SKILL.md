@@ -148,16 +148,22 @@ gh issue close <N> --repo gailroco/cvportfolio
 
 ## 9. Deploy
 
-`npm run deploy` publishes straight to the live GitHub Pages site.
-After closing the issue, mention it is available and ask whether to
-deploy now or batch it with other pending fixes. Do not run it on your
-own initiative.
+The manual Deploy workflow in GitHub Actions builds the pushed `master`
+and publishes it straight to the live GitHub Pages site. It only sees
+what has been pushed, so push first. After closing the issue, mention
+it is available and ask whether to deploy now or batch it with other
+pending fixes. Do not run it on your own initiative.
 
 **Checkpoint:** ask whether to deploy now before running it.
 
 ```bash
-npm run deploy
+gh workflow run deploy.yml --repo gailroco/cvportfolio --ref master
+gh run list --repo gailroco/cvportfolio --workflow deploy.yml --limit 1
+gh run watch <run-id> --repo gailroco/cvportfolio --exit-status
 ```
+
+Report the run's result, and load the live site at
+https://gailroco.github.io/cvportfolio/ to confirm the fix is there.
 
 ## 10. Save what is worth keeping
 

@@ -25,7 +25,7 @@ npm run serve -- --prefix-paths  # start production server
 - Production build with path prefix: `npm run build -- --prefix-paths`
 - Preview locally: `npm run serve`
 - Preview with path prefix: `npm run serve -- --prefix-paths` (http://localhost:9000/cvportfolio/)
-- GitHub Pages: `npm run deploy` (publishes `public/`)
+- GitHub Pages: `gh workflow run deploy.yml` (builds with the path prefix and publishes from GitHub Actions; manual only)
 
 ## Security and dependency hygiene
 - Audit regularly: `npm audit`

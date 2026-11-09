@@ -58,7 +58,7 @@ Images are processed by Gatsby's GraphQL system:
 ## Build and Deployment
 - Gatsby plugins handle images, manifest, sitemap, Sass, and remark.
 - `npm run build` produces the static site under `public/`.
-- `npm run deploy` publishes `public/` to GitHub Pages via `gh-pages`.
+- The manual Deploy workflow in GitHub Actions builds with `--prefix-paths` and publishes `public/` to GitHub Pages. Start it with `gh workflow run deploy.yml`.
 
 ## Notable Changes in this pass
 - Removed unused dependencies (MUI, Emotion, jQuery, axios, follow-redirects, webpack-dev-middleware) to reduce attack surface and bundle size.
