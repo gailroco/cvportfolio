@@ -14,7 +14,7 @@ A simple Gatsby-based portfolio site with React, SCSS, and small animation helpe
 1. **Prerequisites.**
 
     ```shell
-    node -v   # >= 20
+    nvm install   # installs and switches to the Node version in .nvmrc
     npm -v    # >= 10
     ```
 

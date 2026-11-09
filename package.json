@@ -7,6 +7,9 @@
   "keywords": [
     "gatsby"
   ],
+  "engines": {
+    "node": ">=22.23.1 <23"
+  },
   "scripts": {
     "start": "npm run develop",
     "develop": "gatsby develop",
