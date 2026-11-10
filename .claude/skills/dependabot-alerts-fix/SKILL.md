@@ -19,6 +19,16 @@ lockfile (not just in package.json).
 - Do not poll CI with a stream of separate tool calls. Use a single
   blocking `bash` call with `run_in_background: true`.
 
+## Toolchain
+
+Run every npm command in this skill on the Node version pinned in
+`.nvmrc`, so a different npm release does not reformat the lockfile.
+Check `node -v` first; if it differs, run `nvm install`. On a machine
+without nvm, `scripts/docker-npm.sh ci` runs the install in the pinned
+container; for lockfile only commands, run them in the same image with
+`docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/app"
+cvportfolio-build:<version> npm ...` after the wrapper has built it once.
+
 ## 1. Fetch all open alerts, minimal fields
 
 ```bash
@@ -165,6 +175,18 @@ verify with `npm ls`, confirm with `npm ci --dry-run`, commit).
 For a direct dependency with a patched version available, bump it in
 `package.json` and run `npm update <pkg> --package-lock-only` to avoid
 a full lockfile regeneration.
+
+Sometimes the fix is to remove an override rather than add one, for
+example when an old scoped override forced a package onto a major
+version that a new advisory now covers, while the range the parent asks
+for is already safe. Removing the override from `package.json` is not
+enough: the nested copies it forced stay in the lockfile. Delete those
+`node_modules/<parent>/node_modules/<pkg>` entries (and their own
+nested children) from `package-lock.json`, re-run
+`npm install --package-lock-only` so they resolve to the parent's
+range, then verify as above. If the package is used by the linter,
+also confirm lint still reports errors, for example by piping a file
+with an undefined name into `npx eslint --stdin`.
 
 ### patch-package
 

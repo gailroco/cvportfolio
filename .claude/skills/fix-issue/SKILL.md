@@ -78,6 +78,13 @@ Any UI or layout facing change must be checked visually before it
 counts as done, a passing build proves the site compiles, not that the
 fix looks right.
 
+First make sure the build runs on the pinned Node. Compare `node -v`
+with `.nvmrc`; if they differ, run `nvm install`. On a machine without
+nvm, use the Docker wrapper instead of the bare npm commands in this
+step (`scripts/docker-npm.sh develop`, `lint` or `build`). Its dev
+server is also published on `http://localhost:8000`, so the browser
+check below works the same way.
+
 ```bash
 npm run develop
 ```
@@ -88,11 +95,11 @@ manually, and confirm the reported problem is actually gone. For a
 content-only or data-only change (copy, dates, links) a quick visual
 check is still worth doing but the bar is lower.
 
-Also lint before committing, there is no `lint` npm script wired up, so
-call eslint directly:
+Also lint before committing. Use the same command CI runs, which lints
+the whole repository, not only the site source:
 
 ```bash
-npx eslint src
+npm run lint
 ```
 
 ## 5. No test suite: do not fabricate one
