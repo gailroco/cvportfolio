@@ -1,0 +1,255 @@
+---
+name: dependabot-alerts-fix
+description: Resolve all open Dependabot security alerts for gailroco/cvportfolio end-to-end. Fetches open alerts, cross-references any associated PRs, and fixes each one via the right path: merge an existing PR, fix the dependency on master directly, apply a patch-package patch, or dismiss with justification. Use when asked to fix/clear Dependabot alerts, resolve security vulnerabilities, or work through the Security > Dependabot alerts list.
+---
+
+# Fix Dependabot Alerts (end to end)
+
+A Dependabot alert flags a vulnerable dependency. It may or may not have
+an associated PR. This skill resolves every open alert, choosing the
+right fix path for each one, then verifies the fixes are actually in the
+lockfile (not just in package.json).
+
+## 0. Cost rules
+
+- Never fetch a PR or alert `body` field unnecessarily. The severity,
+  package name, and title carry all the signal needed for triage.
+- Classify every alert before fixing any of them. One batch, one plan,
+  one approval.
+
+## Toolchain
+
+Run every npm command in this skill on the Node version pinned in
+`.nvmrc`, so a different npm release does not reformat the lockfile.
+Check `node -v` first; if it differs, run `nvm install`. On a machine
+without nvm, `scripts/docker-npm.sh ci` runs the install in the pinned
+container; for lockfile only commands, run them in the same image with
+`docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/app"
+cvportfolio-build:<version> npm ...` after the wrapper has built it once.
+
+## 1. Fetch all open alerts, minimal fields
+
+```bash
+gh api repos/gailroco/cvportfolio/dependabot/alerts \
+  --paginate \
+  --jq '[.[] | select(.state=="open") | {
+    number,
+    severity: .security_advisory.severity,
+    package: .dependency.package.name,
+    vulnerable_version: .security_vulnerability.vulnerable_version_range,
+    fixed_in: .security_vulnerability.first_patched_version.identifier,
+    pr: .auto_dismissed_at,
+    manifest: .dependency.manifest_path
+  }] | sort_by(.severity)'
+```
+
+If empty, report nothing to do and stop.
+
+## 2. Cross-reference open Dependabot PRs
+
+```bash
+gh pr list --state open --author app/dependabot \
+  --json number,title,headRefName,additions,deletions,changedFiles
+```
+
+Match each PR title (`Bump <pkg> from X to Y`) against the alert package
+names from step 1. Note which alerts already have a PR candidate.
+
+## 3. Classify each alert into a fix path
+
+For each open alert assign one of:
+
+- **PR-merge**: a Dependabot PR exists, touches only manifest/lockfile,
+  non-major bump, and its branch passes the local check below. Cheapest
+  path.
+- **PR-failing-check**: a Dependabot PR exists but fails the local check
+  (usually a lockfile sync error). Fix master directly; never rebase (see section 6).
+- **No-PR / manual override**: no PR exists, but a patched version is
+  available. Fix via `package.json` overrides and `npm update`.
+- **patch-package**: no safe dependency bump is possible (patched release
+  requires incompatible peer versions). Patch the installed file directly.
+- **Dismiss**: alert is in a dev-only path with no realistic attack vector,
+  or is already mitigated by an existing patch. Justify explicitly.
+
+`fixed_in` from step 1 being null means no patched version exists yet;
+that alert is a candidate for patch-package or dismiss.
+
+## 4. Check each PR locally
+
+CI no longer runs on pushes or PRs (it runs only by hand, so the
+project spends no GitHub Actions minutes). Never start or wait on a
+run. Check each candidate PR on this machine instead:
+
+```bash
+gh pr checkout <N>
+{ npm ci && npm run lint && npm run build; } > /tmp/pr-check.log 2>&1
+echo "exit $?"; tail -n 20 /tmp/pr-check.log
+git checkout master
+```
+
+## 5. Present batch table and get one approval
+
+Show every open alert in a single table:
+
+| Alert # | Package | Severity | Fixed in | Has PR | Fix path |
+|---------|---------|----------|----------|--------|----------|
+
+Ask for one approval covering the whole plan. The user can carve out
+exceptions in their reply. Do not start any fix before approval.
+
+## 6. Execute fixes by path
+
+### PR-merge
+
+```bash
+gh pr merge <N> --squash --delete-branch
+```
+
+Loop over approved numbers in sequence.
+
+After merging multiple PRs back-to-back, always regenerate the lockfile
+on master before pushing. Two sequential Dependabot merges can each drop
+the other's nested lockfile entries since each was generated in isolation:
+
+```bash
+npm install --package-lock-only
+npm ci --dry-run
+```
+
+If `npm ci --dry-run` exits clean, commit the updated lockfile and push.
+
+### PR-failing-check (lockfile sync error)
+
+Never use `@dependabot rebase`. The `brace-expansion` flat override in
+this repo causes Dependabot to place `brace-expansion@5.x` at a nested
+path that violates the override, so rebases reproduce the same failure.
+
+Fix on master instead:
+
+1. Add or update `package.json` overrides for the target package.
+   Use scoped overrides when the package is a transitive dep:
+   ```json
+   "overrides": {
+     "parent-pkg": { "vuln-pkg": ">=X.Y.Z <NEXT_MAJOR.0.0" }
+   }
+   ```
+   Always include an upper bound on the major to prevent unintended
+   major bumps. A flat override on a package that is also a direct dep
+   causes `EOVERRIDE`; scope it to the transitive parent instead.
+
+2. Run `npm update <pkg> --package-lock-only`. Do NOT delete and
+   regenerate the full lockfile. This repo's `brace-expansion` override
+   creates a lockfile structure a fresh `npm install` cannot reproduce.
+
+3. If `npm update` misses a nested 4.x/5.x entry (scoped overrides are
+   not enforced by `npm update` for nested paths), patch the lockfile
+   entry directly. Get the correct hash first:
+   ```bash
+   npm view <pkg>@<version> dist
+   ```
+   Then update the `resolved` URL and `integrity` field for that entry
+   in `package-lock.json`.
+
+4. Verify the fix actually landed. A committed override can look correct
+   in `package.json` while the lockfile still resolves the old version:
+   ```bash
+   npm ls <pkg>
+   ```
+   Check for `invalid:` markers. If any appear, the lockfile is still
+   stale; regenerate with `npm install --package-lock-only` in a clean
+   environment (only `package.json` present, no existing lockfile) and
+   copy the result back.
+
+5. Confirm the build is clean:
+   ```bash
+   npm ci --dry-run
+   ```
+   Must exit 0 with no "Missing:" or "Invalid:" lines.
+
+6. Commit both `package.json` and `package-lock.json` to master and push.
+   Dependabot detects master already satisfies the target version and
+   closes its PR automatically. No manual close needed.
+
+### No-PR / manual override
+
+Same steps as PR-failing-check from step 2 onward (add override, update,
+verify with `npm ls`, confirm with `npm ci --dry-run`, commit).
+
+For a direct dependency with a patched version available, bump it in
+`package.json` and run `npm update <pkg> --package-lock-only` to avoid
+a full lockfile regeneration.
+
+Sometimes the fix is to remove an override rather than add one, for
+example when an old scoped override forced a package onto a major
+version that a new advisory now covers, while the range the parent asks
+for is already safe. Removing the override from `package.json` is not
+enough: the nested copies it forced stay in the lockfile. Delete those
+`node_modules/<parent>/node_modules/<pkg>` entries (and their own
+nested children) from `package-lock.json`, re-run
+`npm install --package-lock-only` so they resolve to the parent's
+range, then verify as above. If the package is used by the linter,
+also confirm lint still reports errors, for example by piping a file
+with an undefined name into `npx eslint --stdin`.
+
+### patch-package
+
+Use when no dependency version bump can fix the alert (e.g. the patched
+release requires incompatible peer packages).
+
+1. Identify the vulnerable code path in the installed package under
+   `node_modules`.
+2. Apply the minimal fix in place, then:
+   ```bash
+   npx patch-package <pkg>
+   ```
+   This writes a patch file to `patches/`.
+3. Verify the patch applies cleanly on a fresh install:
+   ```bash
+   npm ci
+   ```
+4. Commit the patch file. The `postinstall: patch-package --error-on-fail`
+   hook in `package.json` ensures the install fails loudly if a future dep bump
+   ever causes the patch to stop applying.
+5. GitHub's dependency graph scan is manifest-based and never inspects
+   installed file contents, so the Dependabot alert will not auto-close.
+   Dismiss it manually via API:
+   ```bash
+   gh api repos/gailroco/cvportfolio/dependabot/alerts/<N> -X PATCH \
+     -f state=dismissed \
+     -f dismissed_reason=tolerable_risk \
+     -f dismissed_comment="<280 char max: patch commit sha and why>"
+   ```
+   The dismissal comment is the only record. Do not file a tracking
+   issue for it.
+
+### Dismiss
+
+```bash
+gh api repos/gailroco/cvportfolio/dependabot/alerts/<N> -X PATCH \
+  -f state=dismissed \
+  -f dismissed_reason=<tolerable_risk|no_bandwidth|not_used> \
+  -f dismissed_comment="<justification>"
+```
+
+Only dismiss when the vulnerable code path is genuinely unreachable or
+already mitigated. State the reason explicitly in the dismissal
+comment, and do not file a tracking issue alongside it.
+
+## 7. Local gate, no CI
+
+Before pushing any fix to master, run `npm ci`, `npm run lint` and
+`npm run build` locally and push only when all three pass. A push no
+longer starts CI, so there is nothing to wait for afterwards.
+
+## 8. Verify alerts closed
+
+After all fixes pass the local gate:
+
+```bash
+gh api repos/gailroco/cvportfolio/dependabot/alerts \
+  --jq '[.[] | select(.state=="open")] | length'
+```
+
+Report how many remain open and why (no patched version, deferred,
+dismissed). One compact closing summary: alerts resolved (package,
+severity, fix path used), alerts still open and why.

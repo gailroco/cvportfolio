@@ -1,0 +1,204 @@
+---
+name: fix-issue
+description: Fix a gailroco/cvportfolio GitHub issue end to end: investigate, patch, verify in a browser, commit, comment, and close. Use when the user says "fix issue #N", references a gailroco/cvportfolio GitHub issue by number, or asks to work through the open issue list.
+---
+
+# Fix a cvportfolio issue
+
+This repo is a static Gatsby portfolio site with no backend, no device
+target, and no configured test suite (`npm test` is a stub that
+intentionally fails, there is nothing to run). Verification here means
+reading the fix and checking it in a real browser, not running a test
+command.
+
+## In a Claude cloud session
+
+When `CLAUDE_CODE_REMOTE=true`, the Claude in Chrome tools are not
+available. Dependencies are already installed by the session start
+hook. Adjust the steps below:
+
+- Steps 1 and 8: the cloud GitHub proxy rejects GraphQL, so
+  `gh issue view`, `gh issue comment` and `gh issue close` fail there.
+  Use the REST API instead: read with
+  `gh api repos/gailroco/cvportfolio/issues/<N>`, comment with
+  `gh api repos/gailroco/cvportfolio/issues/<N>/comments -f body=...`
+  and close with
+  `gh api -X PATCH repos/gailroco/cvportfolio/issues/<N> -f state=closed`.
+- Step 4: run `npm run lint` and `npm run build -- --prefix-paths`,
+  start `npm run serve` in the background, then check each affected
+  route with the preinstalled Chrome:
+
+  ```bash
+  "$CHROME_PATH" --headless --no-sandbox --virtual-time-budget=8000 \
+    --window-size=1280,2000 --screenshot=/tmp/page.png \
+    http://localhost:9000/cvportfolio/<route>
+  ```
+
+  The virtual time budget lets the fade in animations finish; without
+  it the screenshot is blank. Look at the image and confirm the
+  reported problem is gone. Repeat with `--window-size=390,2000` for a phone
+  width check when the issue is about layout. This screenshot counts
+  as the browser check, so the issue may be closed after it passes.
+  Stop the server afterwards.
+- Step 9: never deploy from a cloud session, not even when asked.
+  Publishing stays a deliberate step taken from a local session, and
+  starting a GitHub Actions run is no substitute.
+
+## 1. Pull the issue
+
+```bash
+gh issue view <N> --repo gailroco/cvportfolio
+```
+
+If the user did not give a number, `gh issue list --repo
+gailroco/cvportfolio` first and ask which one, or confirm if there is
+one obvious match.
+
+## 2. Diagnose before patching
+
+- Find the relevant page, component, or data file under `src/` and
+  trace how it produces the reported behavior.
+- Root cause it, restate the actual problem in your own words rather
+  than the issue title alone.
+- If a screenshot or reported page is involved, load it in a browser
+  first (see step 4's tooling) to see the real current behavior before
+  guessing at a fix.
+
+**Checkpoint:** present the restated problem and an implementation
+plan, what changes, which files, any layout or content risk, and wait
+for approval before writing any code.
+
+## 3. Fix
+
+After approval, make the code change. Keep it scoped to the issue,
+this is a small personal site, do not fold in unrelated cleanup.
+
+## 4. Verify in a browser, not just a clean build
+
+Any UI or layout facing change must be checked visually before it
+counts as done, a passing build proves the site compiles, not that the
+fix looks right.
+
+First make sure the build runs on the pinned Node. Compare `node -v`
+with `.nvmrc`; if they differ, run `nvm install`. On a machine without
+nvm, use the Docker wrapper instead of the bare npm commands in this
+step (`scripts/docker-npm.sh develop`, `lint` or `build`). Its dev
+server is also published on `http://localhost:8000`, so the browser
+check below works the same way.
+
+```bash
+npm run develop
+```
+
+Then load `http://localhost:8000` (or the specific route affected) with
+the `claude-in-chrome` tools, or hand off to the user to check
+manually, and confirm the reported problem is actually gone. For a
+content-only or data-only change (copy, dates, links) a quick visual
+check is still worth doing but the bar is lower.
+
+Also lint before committing. Use the same command CI runs, which lints
+the whole repository, not only the site source:
+
+```bash
+npm run lint
+```
+
+## 5. No test suite: do not fabricate one
+
+This repo has no unit testing framework configured. Do not add ad hoc
+test files or wire one up as a side effect of an issue fix, that is a
+separate, larger decision. If a fix is complex enough that the user
+would want real test coverage, say so and let them decide whether to
+set up testing as its own piece of work.
+
+## 6. Commit
+
+Follow the global commit format (present tense title, 72 characters or
+less, blank line, `-` bullets, no file or function or variable names,
+no dash used as punctuation). Stage files by name, never `git add -A`
+or `git add .`.
+
+This repo's convention: never add a `Co-Authored-By` trailer to
+commits here, regardless of the default commit template.
+
+**Checkpoint:** show the drafted title and bullet body and wait for
+approval before running `git commit`.
+
+## 7. Push
+
+**Checkpoint:** ask whether to push to `master` before running it.
+
+```bash
+git push
+```
+
+## 8. Comment and close
+
+Draft the issue comment in this format:
+
+```
+**Problem:** <what the user visible symptom was>
+
+**Root cause:** <why it happened>
+
+**Fix:** <what changed>
+
+Fixed in <sha>.
+```
+
+**Checkpoint:** show the proposed comment and wait for approval before
+posting.
+
+```bash
+gh issue comment <N> --repo gailroco/cvportfolio --body "$(cat <<'EOF'
+**Problem:** <...>
+
+**Root cause:** <...>
+
+**Fix:** <...>
+
+Fixed in <sha>.
+EOF
+)"
+```
+
+**Checkpoint:** ask whether to close the issue now. Only close after
+the browser check in step 4 actually confirmed the fix, not on the
+strength of a clean build alone.
+
+```bash
+gh issue close <N> --repo gailroco/cvportfolio
+```
+
+## 9. Deploy
+
+Everything runs on this machine. GitHub Actions is not used for
+building or publishing (CI runs only when started by hand, see
+`.github/workflows/ci.yml`), so never start, re-run or wait on a
+workflow run as a gate, unless the user asks for that specific run.
+The step 4 build and lint are the gate.
+
+`npm run deploy` builds the site with the path prefix from the local
+working tree and pushes the result to the `gh-pages` branch, which
+GitHub Pages serves. It publishes whatever is on disk, so deploy from
+a clean `master` that has already been pushed. After closing the
+issue, mention it is available and ask whether to deploy now or batch
+it with other pending fixes. Do not run it on your own initiative.
+
+**Checkpoint:** ask whether to deploy now before running it.
+
+```bash
+git status --short   # must be empty
+npm run deploy 2>&1 | tail -n 20; echo "exit ${PIPESTATUS[0]}"
+```
+
+Then load the live site at https://gailroco.github.io/cvportfolio/ to
+confirm the fix is there (it can take a minute or two to appear).
+
+## 10. Save what is worth keeping
+
+If the fix surfaced a non obvious, reusable lesson (a Gatsby build
+quirk, a layout gotcha, something likely to recur), save it as a
+`reference` or `feedback` memory. Routine "found bug, fixed with commit
+X" detail belongs in the issue comment and commit message, git and
+GitHub are already the record for that.
