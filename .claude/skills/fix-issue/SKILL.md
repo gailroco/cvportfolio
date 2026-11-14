@@ -41,7 +41,8 @@ hook. Adjust the steps below:
   as the browser check, so the issue may be closed after it passes.
   Stop the server afterwards.
 - Step 9: never deploy from a cloud session, not even when asked.
-  Publishing stays a deliberate step taken from a local session.
+  Publishing stays a deliberate step taken from a local session, and
+  starting a GitHub Actions run is no substitute.
 
 ## 1. Pull the issue
 
@@ -171,22 +172,28 @@ gh issue close <N> --repo gailroco/cvportfolio
 
 ## 9. Deploy
 
-The manual Deploy workflow in GitHub Actions builds the pushed `master`
-and publishes it straight to the live GitHub Pages site. It only sees
-what has been pushed, so push first. After closing the issue, mention
-it is available and ask whether to deploy now or batch it with other
-pending fixes. Do not run it on your own initiative.
+Everything runs on this machine. GitHub Actions is not used for
+building or publishing (CI runs only when started by hand, see
+`.github/workflows/ci.yml`), so never start, re-run or wait on a
+workflow run as a gate, unless the user asks for that specific run.
+The step 4 build and lint are the gate.
+
+`npm run deploy` builds the site with the path prefix from the local
+working tree and pushes the result to the `gh-pages` branch, which
+GitHub Pages serves. It publishes whatever is on disk, so deploy from
+a clean `master` that has already been pushed. After closing the
+issue, mention it is available and ask whether to deploy now or batch
+it with other pending fixes. Do not run it on your own initiative.
 
 **Checkpoint:** ask whether to deploy now before running it.
 
 ```bash
-gh workflow run deploy.yml --repo gailroco/cvportfolio --ref master
-gh run list --repo gailroco/cvportfolio --workflow deploy.yml --limit 1
-gh run watch <run-id> --repo gailroco/cvportfolio --exit-status
+git status --short   # must be empty
+npm run deploy 2>&1 | tail -n 20; echo "exit ${PIPESTATUS[0]}"
 ```
 
-Report the run's result, and load the live site at
-https://gailroco.github.io/cvportfolio/ to confirm the fix is there.
+Then load the live site at https://gailroco.github.io/cvportfolio/ to
+confirm the fix is there (it can take a minute or two to appear).
 
 ## 10. Save what is worth keeping
 

@@ -32,7 +32,7 @@ A simple Gatsby-based portfolio site with React, SCSS, and small animation helpe
     ```shell
     npm run build       # production build
     npm run serve       # serve the built site locally
-    gh workflow run deploy.yml   # publish to GitHub Pages from GitHub Actions
+    npm run deploy      # build with the path prefix and publish to GitHub Pages
     ```
 
     **For production preview with path prefix:**

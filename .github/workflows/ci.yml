@@ -1,10 +1,11 @@
 name: CI
 
+# Manual runs only (Actions tab > CI > Run workflow). Builds, lint and
+# deploys run locally so this project spends no GitHub Actions minutes.
+# Do not add push or pull_request triggers back without the owner's
+# agreement.
 on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  workflow_dispatch:
 
 permissions:
   contents: read
