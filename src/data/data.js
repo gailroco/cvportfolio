@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 // HEAD DATA
 export const headData = {
   title: "Gail's Portfolio",
@@ -30,7 +28,7 @@ export const aboutData = {
 // PROJECTS DATA
 export const projectsData = [
   {
-    id: nanoid(),
+    id: 'project-levitator',
     img1: 'bsc0_1.jpg',
     img2: 'bsc0_2.jpg',
     title: 'Output Feedback Linear Control for an Air-based Levitator',
@@ -51,7 +49,7 @@ export const projectsData = [
     enableimg2: false,
   },
   {
-    id: nanoid(),
+    id: 'project-wheeled-robot',
     img1: 'bsc1.jpg',
     img2: 'bsc2.jpg',
     title: 'Instrumentation and control of a wheeled mobile robot type (2,0)',
@@ -71,7 +69,7 @@ export const projectsData = [
     enableimg2: true,
   },
   {
-    id: nanoid(),
+    id: 'project-sliding-mode',
     img1: 'msc1.jpg',
     img2: 'msc2.jpg',
     title: 'Continuous sliding mode control of differential drive robot',
@@ -91,7 +89,7 @@ export const projectsData = [
     enableimg2: true,
   },
   {
-    id: nanoid(),
+    id: 'project-r2d2',
     img1: 'personal1.jpg',
     img2: 'personal2.jpg',
     title: 'My own R2-D2',
@@ -126,17 +124,17 @@ export const footerData = {
   base: 'this Gatsby modified template.',
   networks: [
     {
-      id: nanoid(),
+      id: 'network-linkedin',
       name: 'linkedin',
       url: 'https://www.linkedin.com/in/gailroco/',
     },
     {
-      id: nanoid(),
+      id: 'network-github',
       name: 'github',
       url: 'https://github.com/gailroco',
     },
     {
-      id: nanoid(),
+      id: 'network-hackerrank',
       name: 'hackerrank',
       url: 'https://www.hackerrank.com/gailroco',
     },

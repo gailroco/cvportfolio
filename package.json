@@ -13,12 +13,10 @@
   "scripts": {
     "start": "npm run develop",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "lint": "eslint .",
     "build": "gatsby build",
     "serve": "gatsby serve --prefix-paths",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "postinstall": "patch-package --error-on-fail",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public --nojekyll"
   },
@@ -34,8 +32,8 @@
     "gatsby-source-filesystem": "^5.15.0",
     "gatsby-transformer-remark": "^6.15.0",
     "gatsby-transformer-sharp": "^5.15.0",
-    "nanoid": "^5.1.5",
     "postcss": "^8.5.18",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
@@ -119,15 +117,5 @@
   },
   "bugs": {
     "url": "https://github.com/gailroco/cvportfolio/issues"
-  },
-  "lint-staged": {
-    "*.+(js|jsx)": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.+(json|css|md)": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }

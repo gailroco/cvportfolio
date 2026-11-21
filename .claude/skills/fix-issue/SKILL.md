@@ -6,8 +6,8 @@ description: Fix a gailroco/cvportfolio GitHub issue end to end: investigate, pa
 # Fix a cvportfolio issue
 
 This repo is a static Gatsby portfolio site with no backend, no device
-target, and no configured test suite (`npm test` is a stub that
-intentionally fails, there is nothing to run). Verification here means
+target, and no configured test suite (there is no test script, there is
+nothing to run). Verification here means
 reading the fix and checking it in a real browser, not running a test
 command.
 

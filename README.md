@@ -46,15 +46,15 @@ A simple Gatsby-based portfolio site with React, SCSS, and small animation helpe
     If images show as gray placeholders instead of actual images:
     
     ```shell
-    # First, stop any running servers
-    taskkill /F /IM node.exe  # Windows: kill all Node processes
-    # OR Ctrl+C in terminal windows running npm commands
+    # First, stop any running servers: Ctrl+C in each terminal running
+    # npm commands, or for a server left running in the background:
+    pkill -f gatsby
     
     npm run clean       # clear Gatsby cache
     npm run develop     # restart dev server
     # OR
     npm run build -- --prefix-paths  # rebuild with path prefix
-    npm run serve -- --prefix-paths  # serve production preview
+    npm run serve                    # serve production preview
     ```
     
     **Note:** On Windows, you may get "resource busy or locked" errors if Gatsby processes are still running. Always stop servers before running `npm run clean`.
