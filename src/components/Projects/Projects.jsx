@@ -37,6 +37,8 @@ const Projects = () => {
               link2,
               cap1,
               cap2,
+              linklabel1,
+              linklabel2,
               enableimg1,
               enableimg2,
               id,
@@ -80,10 +82,22 @@ const Projects = () => {
                   </Fade>
                 </Col>
                 <Col lg={4} sm={12}>
-                  <ProjectLayout12 filename={img1} link={link1} alt={cap1} enableimg={enableimg1} />
+                  <ProjectLayout12
+                    filename={img1}
+                    link={link1}
+                    cap={cap1}
+                    linklabel={linklabel1}
+                    enableimg={enableimg1}
+                  />
                 </Col>
                 <Col lg={4} sm={12}>
-                  <ProjectLayout12 filename={img2} link={link2} alt={cap2} enableimg={enableimg2} />
+                  <ProjectLayout12
+                    filename={img2}
+                    link={link2}
+                    cap={cap2}
+                    linklabel={linklabel2}
+                    enableimg={enableimg2}
+                  />
                 </Col>
               </Row>
             );

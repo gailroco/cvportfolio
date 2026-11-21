@@ -12,3 +12,14 @@ body {
   pointer-events: none;
   cursor: default;
 }
+
+// Respect the OS reduced motion setting: show reveal content in place
+// instead of fading or sliding it in. The reveal library sets its
+// animation inline and may hide pending elements, so both need forcing.
+@media (prefers-reduced-motion: reduce) {
+  .react-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
