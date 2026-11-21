@@ -1,20 +1,11 @@
 import React from 'react';
 import App from '../components/App';
-import { headData } from '../data/data';
+import Seo from '../components/Seo';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/main.scss';
 
-const IndexPage = () => {
-    const { title, lang, description } = headData;
+const IndexPage = () => <App />;
 
-    return (
-      <App>
-        <meta charSet="utf-8" />
-        <title>{title || 'Gatsby Simple portfolio'}</title>
-        <html lang={lang || 'en'} />
-        <meta name="description" content={description || 'Gatsby Simple portfolio'} />
-      </App>
-    )
-  }
+export default IndexPage;
 
-  export default IndexPage
+export const Head = () => <Seo path="" />;

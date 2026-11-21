@@ -4,7 +4,6 @@
 module.exports = {
   pathPrefix: "/cvportfolio/",
   siteMetadata: {
-    title: `Gailroco's portfolio`,
     siteUrl: `https://gailroco.github.io/cvportfolio/`
   },
   plugins: [

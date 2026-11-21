@@ -4,18 +4,12 @@ import { Container } from 'react-bootstrap';
 import Fade from '../transition/in-and-out/Fade';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { headData } from '../data/data';
+import Seo from '../components/Seo';
 import '../style/main.scss';
 
 const NotFoundPage = () => {
-  const { lang } = headData;
-
   return (
     <>
-      <meta charSet="utf-8" />
-      <title>Page not found</title>
-      <html lang={lang || 'en'} />
-      <meta name="description" content="Page not found" />
       <section id="hero" className="jumbotron">
         <Container>
           <Fade bottom duration={1000} delay={500} distance="30px">
@@ -41,4 +35,4 @@ const NotFoundPage = () => {
 
 export default NotFoundPage
 
-export const Head = () => <title>Not found</title>
+export const Head = () => <Seo title="Page not found" description="Page not found" />;
